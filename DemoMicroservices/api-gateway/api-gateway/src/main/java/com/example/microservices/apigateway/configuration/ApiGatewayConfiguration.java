@@ -22,20 +22,17 @@ public class ApiGatewayConfiguration {
                         .addRequestParameter("Param", "MyValue"))
                 .uri("http://httpbin.org:80");
 
-        //Bizi iki kez /currency-conversion/currency-conversion yazmaktan kurtardı
-        //İki kez currency-exchange yazılmasının sebebi ilkinin eureka üzerinden alındıgından, eureka yı
-        //kullanarak doğru servisi buluyoruz.
         Function<PredicateSpec, Buildable<Route>> routeFunction2
                 =  p -> p.path("/currency-exchange/**")
-                .uri("lb://currency-exchange"); //lb load balance demek
+                .uri("lb://currency-exchange");
 
         Function<PredicateSpec, Buildable<Route>> routeFunction3
                 =  p -> p.path("/currency-conversion/**")
-                .uri("lb://currency-conversion"); //lb load balance demek
+                .uri("lb://currency-conversion");
 
         Function<PredicateSpec, Buildable<Route>> routeFunction4
                 =  p -> p.path("/currency-conversion-feign/**")
-                .uri("lb://currency-conversion"); //lb load balance demek
+                .uri("lb://currency-conversion"); 
 
         Function<PredicateSpec, Buildable<Route>> routeFunction5
                 =  p -> p.path("/currency-conversion-new/**")
