@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class Configuration {
-   //limits-service.minimum asagıdaki degere maplenecek
+   //limits-service.minimum asagidaki degere maplenecek
     private int minimum;
     private int maximum;
 }
