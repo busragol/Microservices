@@ -16,12 +16,12 @@ public class CircuitBreakerController {
     @GetMapping("/sample-api")
    // @Retry(name = "sample-api", fallbackMethod = "hardCodedResponse")
     @CircuitBreaker(name = "sample-api", fallbackMethod = "hardCodedResponse")
-    //RateLimiter eklenebilir, hem annotation olarak hem app.prop a ;
-    // belirli bir sürede en fazla ne kadar call yapabileceğini set ediyoruz.
-    // Eğer o süre içerisinde verdiğimiz değeri geçerse hata atıyor.
+    //RateLimiter eklenebilir, hem annotation olarak hem app.properties dosyasina
+    //belirli bir sürede en fazla ne kadar call yapabilecegini set ediyoruz.
+    //Eğer o süre içerisinde verdiğimiz değeri geçerse hata atıyor.
 
-    //BulkHead annotationı ve app.prop da ayarları kullanarakda
-    // aynı anda kaç tane call yapabileceğini set ediyoruz.(concurrently)
+    //Hem BulkHead annotationı ve hem de app.properties dosyasindaki ayarları kullanarak yapilabilir
+    //aynı anda kaç tane call yapabileceğini set ediyoruz.
     public String sampleApi() {
         logger.info("Sample api call received.");
         ResponseEntity<String> forEntity = new RestTemplate().getForEntity("http://localhost:8080/some-dummy-url", String.class);
