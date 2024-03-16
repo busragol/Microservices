@@ -19,7 +19,6 @@ public class CurrencyConversionController {
     @Autowired
     private CurrencyExchangeProxy currencyExchangeProxy;
 
-    //RestTemplate
     @GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversion(
             @PathVariable String from,
@@ -27,8 +26,6 @@ public class CurrencyConversionController {
             @PathVariable BigDecimal quantity
     ) {
         CurrencyConversion currencyConversion = currencyExchangeProxy.retrieveExchangeValue(from, to);
-        //currency-exchange servicinin response u ile currency-conversion classı dataları uyumlu,
-        // o yuzden mapleniyor
         return new CurrencyConversion(currencyConversion.getId(), from, to, quantity,
                 currencyConversion.getCurrencyConversion(),
                 quantity.multiply(currencyConversion.getCurrencyConversion()),
@@ -36,7 +33,6 @@ public class CurrencyConversionController {
     }
 
 
-    //Feign
     @GetMapping("/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversionFeign(
             @PathVariable String from,
@@ -47,13 +43,10 @@ public class CurrencyConversionController {
         uriVariables.put("from", from);
         uriVariables.put("to", to);
 
-        //RestTemplate can be used to make Rest Apı calls
         ResponseEntity<CurrencyConversion> responseEntity =
                 new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}",
                         CurrencyConversion.class, uriVariables);
         CurrencyConversion currencyConversion = responseEntity.getBody();
-        //currency-exchange servicinin response u ile currency-conversion classı dataları uyumlu,
-        // o yuzden mapleniyor
         return new CurrencyConversion(currencyConversion.getId(), from, to, quantity,
                 currencyConversion.getCurrencyConversion(),
                 quantity.multiply(currencyConversion.getCurrencyConversion()),
